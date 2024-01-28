@@ -11,5 +11,7 @@ public class App {
     public static void main(String[] args) {
         databaseConnection dc = new databaseConnection();
 
+        System.out.println("test");
+
     }
 }

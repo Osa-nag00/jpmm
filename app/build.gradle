@@ -20,12 +20,8 @@ repositories {
 dependencies {
 
     implementation 'org.xerial:sqlite-jdbc:3.45.0.0'
-    implementation 'org.slf4j:slf4j-api:2.1.0-alpha1'
-
-
-
-
-        // This dependency is used by the application.
+    
+    //   This dependency is used by the application.
     implementation libs.guava
 
     // Use JUnit Jupiter for testing.
