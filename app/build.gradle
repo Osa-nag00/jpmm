@@ -8,6 +8,9 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
+
+    // this is needed so all depencies come with the jar
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 repositories {
@@ -55,4 +58,6 @@ jar{
     manifest{
         attributes "Main-Class": "$mainClassName"
     }
+    
+   
 }
