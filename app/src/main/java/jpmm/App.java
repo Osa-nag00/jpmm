@@ -4,14 +4,12 @@
 package jpmm;
 
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
 
     public static void main(String[] args) {
-        databaseConnection dc = new databaseConnection();
 
-        System.out.println("test");
+        DatabaseDao DD = new DatabaseDao();
+
+        DD.getAllAccounts();
 
     }
 }
