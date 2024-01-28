@@ -3,13 +3,66 @@
  */
 package jpmm;
 
+import java.util.Scanner;
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class App {
 
     public static void main(String[] args) {
 
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<AccountModel> returnedAccounts;
+        AccountModel correctAccount;
+        String userInput;
         DatabaseDao DD = new DatabaseDao();
 
-        DD.getAllAccounts();
+        System.out.print("Enter the Name of the account: ");
+        userInput = scanner.nextLine();
+
+        returnedAccounts = DD.getLikeAccounts(userInput);
+        correctAccount = getCorrectAccount(returnedAccounts);
+        printAccount(correctAccount);
+
+        // waits for user to press enter to exit program
+        System.console();
+        scanner.close();
+    }
+
+    public static AccountModel getCorrectAccount(ArrayList<AccountModel> accounts) {
+
+        Scanner scanner = new Scanner(System.in);
+        int size = accounts.size();
+        int userInput;
+        System.out.println("Which Account:");
+
+        String output;
+
+        for (int i = 0; i < size; i++) {
+            output = String.format("%d: %s", i + 1, accounts.get(i).getAccount());
+            System.out.println(output);
+        }
+
+        // subtract 1 to take be in sync with the menu
+        userInput = (scanner.nextInt() - 1);
+
+        while (userInput < 0 || userInput > (size - 1)) {
+            System.out.println("INVALID INPUT, TRY OPTION");
+            userInput = (scanner.nextInt() - 1);
+        }
+
+        scanner.close();
+        return accounts.get(userInput);
+    }
+
+    public static void printAccount(AccountModel accountModel) {
+
+        String output;
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+        output = String.format("Account: %s \nUsername: %s \nPassword: %s \n", accountModel.getAccount(),
+                accountModel.getUsername(), accountModel.getPassword());
+        System.out.print(output);
 
     }
 }

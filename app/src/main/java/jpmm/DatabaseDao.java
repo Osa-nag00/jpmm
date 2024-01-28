@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 public class DatabaseDao {
 
-    private AccountModel accountModel;
     private Connection connection;
     private String sqlLiteDatabasePath;
 
@@ -30,6 +29,10 @@ public class DatabaseDao {
             System.err.println("COULD NOT MAKE CONNECTION TO SQLITE DATABASE");
             e.printStackTrace();
         }
+
+        // clear the log thing that pops up
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 
     /*
@@ -72,9 +75,36 @@ public class DatabaseDao {
         return accounts;
     }
 
-    public AccountModel getAccountFromAccountName() {
+    /*
+     * This method will match the prefix of whats passed in
+     * 
+     */
+    public ArrayList<AccountModel> getLikeAccounts(String accountParam) {
 
-        return new AccountModel();
+        String account;
+        String username;
+        String password;
+        ArrayList<AccountModel> accounts = new ArrayList<>();
+        String param = accountParam + "%";
+        String queryString = String.format("SELECT * FROM passwords WHERE Account LIKE '%s'", param);
+
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(queryString);
+
+            while (rs.next()) {
+                account = rs.getString("Account");
+                username = rs.getString("Username");
+                password = rs.getString("Password");
+
+                accounts.add(new AccountModel(account, username, password));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return accounts;
     }
 
 }
