@@ -57,6 +57,7 @@ public class DatabaseDao {
         String queryString = "SELECT * FROM passwords";
 
         try {
+            connection = DriverManager.getConnection(sqlLiteDatabasePath.toString());
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(queryString);
 

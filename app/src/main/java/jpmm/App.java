@@ -4,7 +4,6 @@
 package jpmm;
 
 import java.util.Scanner;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class App {
