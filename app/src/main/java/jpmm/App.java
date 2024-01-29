@@ -13,10 +13,11 @@ public class App {
         Scanner scanner = new Scanner(System.in);
         ArrayList<AccountModel> returnedAccounts;
         AccountModel correctAccount;
-        String userInput;
+        String userInput = " ";
         DatabaseDao DD = new DatabaseDao();
 
         System.out.print("Enter the Name of the account: ");
+
         userInput = scanner.nextLine();
 
         returnedAccounts = DD.getLikeAccounts(userInput);
@@ -47,7 +48,9 @@ public class App {
 
         while (userInput < 0 || userInput > (size - 1)) {
             System.out.println("INVALID INPUT, TRY OPTION");
-            userInput = (scanner.nextInt() - 1);
+            while (scanner.hasNextLine()) {
+                userInput = (scanner.nextInt() - 1);
+            }
         }
 
         scanner.close();

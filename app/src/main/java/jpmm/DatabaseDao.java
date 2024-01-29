@@ -16,7 +16,8 @@ public class DatabaseDao {
         connection = null;
 
         // gets the absolute path of the sqlite *.db file
-        sqlLiteDatabasePath = (App.class.getClassLoader().getResource("db/passwords.db")).toString();
+        // sqlLiteDatabasePath =
+        sqlLiteDatabasePath = App.class.getClassLoader().getResource("db/passwords.db").toString();
 
         // Need to add this prefix for the connection to occur
         // when dealing with sqlite database
