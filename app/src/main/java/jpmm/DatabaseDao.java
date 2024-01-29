@@ -17,7 +17,11 @@ public class DatabaseDao {
 
         // gets the absolute path of the sqlite *.db file
         // sqlLiteDatabasePath =
-        sqlLiteDatabasePath = App.class.getClassLoader().getResource("db/passwords.db").toString();
+        // sqlLiteDatabasePath =
+        // App.class.getClassLoader().getResource("db/passwords.db").toString();
+
+        // This makes it so the db folder needs to be at the root of the dir
+        sqlLiteDatabasePath = "passwords.db";
 
         // Need to add this prefix for the connection to occur
         // when dealing with sqlite database
@@ -31,9 +35,7 @@ public class DatabaseDao {
             e.printStackTrace();
         }
 
-        // clear the log thing that pops up
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+        MyUtil.clearConsole();
     }
 
     /*
