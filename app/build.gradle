@@ -71,3 +71,11 @@ task fatJar(type: Jar) {
     from { configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
 }
+
+task CreateFinalFolder(type: Copy) {
+    dependsOn 'fatJar'
+    from './build/libs/jpmm.jar'
+    from './src/main/java/jpmm/run_jpmm.bat'
+    from './src/main/java/jpmm/passwords.db'
+    into './build/finalDist'
+}
