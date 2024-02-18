@@ -14,7 +14,6 @@ public class MyScannerWrapper {
             userInputString = scanner.nextLine();
 
         }
-
         return userInputString;
     }
 

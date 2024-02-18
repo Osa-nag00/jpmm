@@ -53,6 +53,7 @@ mainClassName = "jpmm.App"
 application {
     // Define the main class for the application.
     mainClass = 'jpmm.App'
+   
 }
 
 tasks.named('test') {
@@ -83,4 +84,8 @@ task CreateFinalFolder(type: Copy) {
     from './src/main/java/jpmm/jpmm.bat'
     from './src/main/java/jpmm/passwords.db'
     into './build/jpmm'
+}
+
+run{
+    standardInput = System.in
 }

@@ -14,6 +14,7 @@ public class DatabaseDao {
     private String sqlLiteDatabasePath;
 
     DatabaseDao() {
+
         connection = null;
 
         // gets the absolute path of the sqlite *.db file
@@ -37,7 +38,7 @@ public class DatabaseDao {
             e.printStackTrace();
         }
 
-        MyUtil.clearConsole();
+        // MyUtil.clearConsole();
     }
 
     /*

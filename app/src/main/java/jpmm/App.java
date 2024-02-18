@@ -21,7 +21,7 @@ public class App {
         String userInput = "";
         DatabaseDao Dao = new DatabaseDao();
 
-        System.out.println("Enter the Name of the account: ");
+        System.out.println("Enter the Name of The Account Or Enter A Command: ");
 
         if (scanner.hasNextLine()) {
             userInput = scanner.nextLine();
@@ -33,13 +33,14 @@ public class App {
 
         // handles commands
         if (userInput.startsWith(".")) {
-
+            handleCommands(userInput);
+        } else {
+            returnedAccounts = Dao.getLikeAccounts(userInput);
+            correctAccount = getCorrectAccount(returnedAccounts);
+            printAccount(correctAccount);
         }
 
-        returnedAccounts = Dao.getLikeAccounts(userInput);
-        correctAccount = getCorrectAccount(returnedAccounts);
-        printAccount(correctAccount);
-
+        MyScannerWrapper.close();
         scanner.close();
     }
 
@@ -85,7 +86,37 @@ public class App {
 
     }
 
-    public static void handleCommands() {
+    public static void handleCommands(String userInput) {
 
+        // remove the '.' from the input to check the input
+        // makes upper case to look nice in code IDK
+        userInput = userInput.substring(1).toUpperCase();
+
+        switch (userInput) {
+            case "A":
+                addAccount();
+                break;
+            case "D":
+                break;
+            default:
+                break;
+        }
+    }
+
+    public static void addAccount() {
+
+        DatabaseDao Dao = new DatabaseDao();
+        String accountName = "";
+        String userName = "";
+        int passLen = -1;
+
+        System.out.println("Enter The Name of The Account You Want To Add: ");
+        accountName = MyScannerWrapper.getStringInput();
+
+        System.out.println("Enter The Username/Email For The Account: ");
+        userName = MyScannerWrapper.getStringInput();
+
+        System.out.println("Enter The Length Of Password To Be Generated: ");
+        Dao.addAccount(accountName, userName, passLen);
     }
 }
