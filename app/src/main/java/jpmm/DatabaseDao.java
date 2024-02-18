@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.sql.PreparedStatement;
 
 public class DatabaseDao {
 
@@ -21,7 +22,8 @@ public class DatabaseDao {
         // App.class.getClassLoader().getResource("db/passwords.db").toString();
 
         // This makes it so the db folder needs to be at the root of the dir
-        sqlLiteDatabasePath = "passwords.db";
+        // the context of this is within the /app dir
+        sqlLiteDatabasePath = "src/main/java/jpmm/passwords.db";
 
         // Need to add this prefix for the connection to occur
         // when dealing with sqlite database
@@ -109,6 +111,22 @@ public class DatabaseDao {
         }
 
         return accounts;
+    }
+
+    public void addAccount(String account, String userName, int passwordLen) {
+
+        String generatedPassword = passwordUtil.generatePassword(passwordLen);
+        String queryString = "INSERT INTO passwords (account, username, password) VALUES (?, ?, ?)";
+
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(queryString);
+            pstmt.setString(1, account);
+            pstmt.setString(2, userName);
+            pstmt.setString(3, generatedPassword);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

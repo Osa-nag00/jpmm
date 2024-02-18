@@ -19,7 +19,7 @@ public class App {
         ArrayList<AccountModel> returnedAccounts;
         AccountModel correctAccount;
         String userInput = "";
-        DatabaseDao DD = new DatabaseDao();
+        DatabaseDao Dao = new DatabaseDao();
 
         System.out.println("Enter the Name of the account: ");
 
@@ -31,7 +31,12 @@ public class App {
             System.exit(-1);
         }
 
-        returnedAccounts = DD.getLikeAccounts(userInput);
+        // handles commands
+        if (userInput.startsWith(".")) {
+
+        }
+
+        returnedAccounts = Dao.getLikeAccounts(userInput);
         correctAccount = getCorrectAccount(returnedAccounts);
         printAccount(correctAccount);
 
@@ -77,6 +82,10 @@ public class App {
         output = String.format("Account: %s \nUsername: %s \nPassword: %s \n", accountModel.getAccount(),
                 accountModel.getUsername(), accountModel.getPassword());
         System.out.print(output);
+
+    }
+
+    public static void handleCommands() {
 
     }
 }
