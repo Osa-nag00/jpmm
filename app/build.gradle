@@ -82,7 +82,7 @@ task CreateFinalFolder(type: Copy) {
     dependsOn 'fatJar'
     from './build/libs/jpmm.jar'
     from './src/main/java/jpmm/jpmm.bat'
-    from './src/main/resources/passwords.db'
+    from './passwords.db'
     into './build/jpmm'
 }
 

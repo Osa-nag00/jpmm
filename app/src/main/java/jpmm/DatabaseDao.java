@@ -26,9 +26,7 @@ public class DatabaseDao {
         // This makes it so the db folder needs to be at the root of the dir
         // the context of this is within the /app dir
         // sqlLiteDatabasePath = "src/main/java/jpmm/passwords.db";
-        sqlLiteDatabasePath = System.getProperty("user.dir")
-                + File.separator + "src" + File.separator + "main" + File.separator
-                + "resources" + File.separator + "passwords.db";
+        sqlLiteDatabasePath = System.getProperty("user.dir") + File.separator + "passwords.db";
 
         // Use this to double check and make sure the file exist
         File tempFileObject = new File(sqlLiteDatabasePath);
