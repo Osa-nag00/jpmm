@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
+import java.io.File;
 
 public class DatabaseDao {
 
@@ -24,7 +25,18 @@ public class DatabaseDao {
 
         // This makes it so the db folder needs to be at the root of the dir
         // the context of this is within the /app dir
-        sqlLiteDatabasePath = "src/main/java/jpmm/passwords.db";
+        // sqlLiteDatabasePath = "src/main/java/jpmm/passwords.db";
+        sqlLiteDatabasePath = System.getProperty("user.dir")
+                + File.separator + "src" + File.separator + "main" + File.separator
+                + "resources" + File.separator + "passwords.db";
+
+        // Use this to double check and make sure the file exist
+        File tempFileObject = new File(sqlLiteDatabasePath);
+
+        if (!tempFileObject.exists()) {
+            System.err.println("COULD NOT FIND DATABASE FILE");
+            // TODO: create new database here??
+        }
 
         // Need to add this prefix for the connection to occur
         // when dealing with sqlite database
@@ -124,6 +136,22 @@ public class DatabaseDao {
             pstmt.setString(1, account);
             pstmt.setString(2, userName);
             pstmt.setString(3, generatedPassword);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteAccount(String account) {
+
+        // TODO: this will delete all instances of "account"
+        // should not be an issue since the accounts names should be unique, maybe
+        // fix later
+
+        String queryString = "DELETE FROM passwords WHERE Account = ?";
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(queryString);
+            pstmt.setString(1, account);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

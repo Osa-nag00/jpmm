@@ -6,7 +6,7 @@ public class MyScannerWrapper {
 
     private static Scanner scanner = new Scanner(System.in);
     private static String userInputString = "";
-    private static int userInputInt = -1;
+    // private static int userInputInt = -1;
 
     public static String getStringInput() {
 
@@ -17,26 +17,17 @@ public class MyScannerWrapper {
         return userInputString;
     }
 
-    public static int getIntInput() {
+    public static int getPositiveIntInput() {
+        int retval = 0;
 
-        boolean firstTime = true;
-
-        // get user empty while its blank
         do {
-
-            if (!firstTime) {
-                System.out.println("EMPTY INPUT, TRY AGAIN");
-            }
-
-            // if scanner has a next line get the input
             if (scanner.hasNextInt()) {
-                userInputInt = scanner.nextInt();
-                firstTime = false;
+                retval = scanner.nextInt();
             }
-            // check while it is still the default
-        } while (userInputInt == -1);
 
-        return userInputInt;
+        } while ((retval % 1 != 0) && (retval < 0)); // makes sure the integer, is an actual integer
+
+        return retval;
     }
 
     public static void close() {

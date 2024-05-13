@@ -27,6 +27,11 @@ public class App {
             userInput = scanner.nextLine();
         }
 
+        // TODO: remove later
+        // since gradle does not take user input, Its faked here to test functionality
+        // To test adding to db
+        userInput = ".d";
+
         if (userInput == "") {
             System.exit(-1);
         }
@@ -97,6 +102,7 @@ public class App {
                 addAccount();
                 break;
             case "D":
+                deleteAccount();
                 break;
             default:
                 break;
@@ -117,6 +123,35 @@ public class App {
         userName = MyScannerWrapper.getStringInput();
 
         System.out.println("Enter The Length Of Password To Be Generated: ");
+        passLen = MyScannerWrapper.getPositiveIntInput();
+
         Dao.addAccount(accountName, userName, passLen);
+    }
+
+    public static void deleteAccount() {
+        DatabaseDao Dao = new DatabaseDao();
+        ArrayList<AccountModel> returnedAccounts;
+        AccountModel correctAccount;
+        String accountName = "";
+        String correctAccountNameToRemove = "";
+
+        System.out.println("Enter The Name of The Account You Want To Delete: ");
+        accountName = MyScannerWrapper.getStringInput();
+
+        // TODO: for testing
+        accountName = "test";
+        returnedAccounts = Dao.getLikeAccounts(accountName);
+
+        if (returnedAccounts.size() < 0) {
+            // TODO: handle better than this
+            System.err.println("CAN NOT FIND ACCOUNT IN DATABASE");
+            System.exit(-1);
+        }
+
+        correctAccount = getCorrectAccount(returnedAccounts);
+
+        correctAccountNameToRemove = correctAccount.getAccount();
+
+        Dao.deleteAccount(correctAccountNameToRemove);
     }
 }
