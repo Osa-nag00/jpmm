@@ -30,7 +30,7 @@ public class App {
         // TODO: remove later
         // since gradle does not take user input, Its faked here to test functionality
         // To test adding to db
-        userInput = ".d";
+        // userInput = ".d";
 
         if (userInput == "") {
             System.exit(-1);
@@ -138,8 +138,6 @@ public class App {
         System.out.println("Enter The Name of The Account You Want To Delete: ");
         accountName = MyScannerWrapper.getStringInput();
 
-        // TODO: for testing
-        accountName = "test";
         returnedAccounts = Dao.getLikeAccounts(accountName);
 
         if (returnedAccounts.size() < 0) {
