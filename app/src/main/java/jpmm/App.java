@@ -4,14 +4,12 @@
 package jpmm;
 
 import java.util.Scanner;
-
 import java.util.ArrayList;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 
 public class App {
-
-    public static void test() {
-
-    }
 
     public static void main(String[] args) {
 
@@ -23,14 +21,10 @@ public class App {
 
         System.out.println("Enter the Name of The Account Or Enter A Command: ");
 
+        // out for debugging
         if (scanner.hasNextLine()) {
             userInput = scanner.nextLine();
         }
-
-        // TODO: remove later
-        // since gradle does not take user input, Its faked here to test functionality
-        // To test adding to db
-        // userInput = ".d";
 
         if (userInput == "") {
             System.exit(-1);
@@ -42,11 +36,24 @@ public class App {
         } else {
             returnedAccounts = Dao.getLikeAccounts(userInput);
             correctAccount = getCorrectAccount(returnedAccounts);
+            copyAccountPasswordToClipboard(correctAccount);
             printAccount(correctAccount);
         }
 
         MyScannerWrapper.close();
         scanner.close();
+    }
+
+    private static void copyAccountPasswordToClipboard(AccountModel accountModel) {
+
+        // make the password a transferable item
+        StringSelection data = new StringSelection(accountModel.getPassword());
+
+        // get the system clipboard
+        Clipboard cb = Toolkit.getDefaultToolkit().getSystemClipboard();
+
+        // copy the password to the clipboard
+        cb.setContents(data, data);
     }
 
     public static AccountModel getCorrectAccount(ArrayList<AccountModel> accounts) {
