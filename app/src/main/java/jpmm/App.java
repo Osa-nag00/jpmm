@@ -21,7 +21,7 @@ public class App {
 
         System.out.println("Enter the Name of The Account Or Enter A Command: ");
 
-        // out for debugging
+        // TODO: leave out for now
         if (scanner.hasNextLine()) {
             userInput = scanner.nextLine();
         }
@@ -32,7 +32,7 @@ public class App {
 
         // handles commands
         if (userInput.startsWith(".")) {
-            handleCommands(userInput);
+            handleCommands(userInput, Dao);
         } else {
             returnedAccounts = Dao.getLikeAccounts(userInput);
             correctAccount = getCorrectAccount(returnedAccounts);
@@ -98,7 +98,7 @@ public class App {
 
     }
 
-    public static void handleCommands(String userInput) {
+    public static void handleCommands(String userInput, DatabaseDao Dao) {
 
         // remove the '.' from the input to check the input
         // makes upper case to look nice in code IDK
@@ -110,7 +110,11 @@ public class App {
                 break;
             case "D":
                 deleteAccount();
+            case "E":
+                csvUtils.exportCSV(Dao);
                 break;
+            case "I":
+                csvUtils.importCSV(Dao);
             default:
                 break;
         }
@@ -141,7 +145,6 @@ public class App {
         AccountModel correctAccount;
         String accountName = "";
         String correctAccountNameToRemove = "";
-
         System.out.println("Enter The Name of The Account You Want To Delete: ");
         accountName = MyScannerWrapper.getStringInput();
 

@@ -32,4 +32,9 @@ public class AccountModel {
     public String getPassword() {
         return Password;
     }
+
+    @Override
+    public String toString() {
+        return this.Account + " : " + this.Username + " : " + this.Password + "\n";
+    }
 }
