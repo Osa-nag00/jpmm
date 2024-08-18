@@ -4,6 +4,9 @@
 package jpmm;
 
 import java.util.Scanner;
+
+import org.sqlite.util.StringUtils;
+
 import java.util.ArrayList;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -56,10 +59,15 @@ public class App {
             clearClipboard();
         }
 
+        System.out.println("Password has been cleared from clipboard");
+
         MyScannerWrapper.close();
         scanner.close();
     }
 
+    /**
+     * Sets clipboard to the empty string
+     */
     private static void clearClipboard() {
         // set empty string
         StringSelection data = new StringSelection("");
@@ -71,6 +79,9 @@ public class App {
         cb.setContents(data, data);
     }
 
+    /**
+     * Sets clipboard to the passed in accountModel password
+     */
     private static void copyAccountPasswordToClipboard(AccountModel accountModel) {
 
         // make the password a transferable item
@@ -119,10 +130,20 @@ public class App {
     public static void printAccount(AccountModel accountModel) {
 
         String output;
+        // get string of '*' with the length of the actual password
+        String passwordPrintOut = obscurePassword(accountModel.getPassword().length());
         output = String.format("Account: %s \nUsername: %s \nPassword: %s \n", accountModel.getAccount(),
-                accountModel.getUsername(), accountModel.getPassword());
+                accountModel.getUsername(), passwordPrintOut);
         System.out.print(output);
 
+    }
+
+    private static String obscurePassword(int passLen) {
+        String retval = "";
+        for (int i = 0; i < passLen; i++) {
+            retval += "*";
+        }
+        return retval;
     }
 
     public static void handleCommands(String userInput, DatabaseDao Dao) {
