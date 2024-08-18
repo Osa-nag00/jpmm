@@ -86,6 +86,6 @@ task CreateFinalFolder(type: Copy) {
     into './build/jpmm'
 }
 
-run{
+run {
     standardInput = System.in
 }

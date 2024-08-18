@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 public class App {
 
@@ -18,10 +21,10 @@ public class App {
         AccountModel correctAccount;
         String userInput = "";
         DatabaseDao Dao = new DatabaseDao();
+        boolean pasteHasBeenDone = false;
 
         System.out.println("Enter the Name of The Account Or Enter A Command: ");
 
-        // TODO: leave out for now
         if (scanner.hasNextLine()) {
             userInput = scanner.nextLine();
         }
@@ -37,11 +40,35 @@ public class App {
             returnedAccounts = Dao.getLikeAccounts(userInput);
             correctAccount = getCorrectAccount(returnedAccounts);
             copyAccountPasswordToClipboard(correctAccount);
+            pasteHasBeenDone = true;
             printAccount(correctAccount);
+        }
+
+        // Nothing else works, just make it wait like 2 seconds before closing :(
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException ie) {
+            Thread.currentThread().interrupt();
+        }
+
+        // clear the system clipboard if the password has been pasted to it
+        if (pasteHasBeenDone) {
+            clearClipboard();
         }
 
         MyScannerWrapper.close();
         scanner.close();
+    }
+
+    private static void clearClipboard() {
+        // set empty string
+        StringSelection data = new StringSelection("");
+
+        // get the system clipboard
+        Clipboard cb = Toolkit.getDefaultToolkit().getSystemClipboard();
+
+        // copy the password to the clipboard
+        cb.setContents(data, data);
     }
 
     private static void copyAccountPasswordToClipboard(AccountModel accountModel) {
