@@ -49,7 +49,7 @@ public class App {
 
         // Nothing else works, just make it wait like 2 seconds before closing :(
         try {
-            Thread.sleep(2000);
+            Thread.sleep(3500);
         } catch (InterruptedException ie) {
             Thread.currentThread().interrupt();
         }
