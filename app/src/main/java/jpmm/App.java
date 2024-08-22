@@ -5,15 +5,10 @@ package jpmm;
 
 import java.util.Scanner;
 
-import org.sqlite.util.StringUtils;
-
 import java.util.ArrayList;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
-import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 
 public class App {
 
@@ -25,6 +20,10 @@ public class App {
         String userInput = "";
         DatabaseDao Dao = new DatabaseDao();
         boolean pasteHasBeenDone = false;
+
+        csvUtils.importCSV(Dao);
+
+        System.exit(0);
 
         System.out.println("Enter the Name of The Account Or Enter A Command: ");
 
@@ -158,7 +157,7 @@ public class App {
                 break;
             case "D":
                 deleteAccount();
-            case "E":
+            case "X":
                 csvUtils.exportCSV(Dao);
                 break;
             case "I":
