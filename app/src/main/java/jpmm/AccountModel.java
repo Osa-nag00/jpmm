@@ -9,16 +9,24 @@ public class AccountModel {
     private String Username;
     private String Password;
 
+    /**
+     * Saved in milliseconds since 1970
+     */
+    private Long DateLastModified;
+
     AccountModel() {
         this.Account = "";
         this.Username = "";
         this.Password = "";
+        this.DateLastModified = 0L;
     }
 
-    AccountModel(String Account, String Username, String Password) {
+    AccountModel(String Account, String Username, String Password, Long DateLastModified) {
         this.Account = Account;
         this.Username = Username;
         this.Password = Password;
+        this.DateLastModified = DateLastModified;
+
     }
 
     public String getAccount() {
@@ -31,6 +39,10 @@ public class AccountModel {
 
     public String getPassword() {
         return Password;
+    }
+
+    public Long getDateLastModified() {
+        return DateLastModified;
     }
 
     @Override

@@ -47,6 +47,8 @@ public class csvUtils {
 
         try (Scanner fileReader = new Scanner(passwordCsv)) {
 
+            Long currentTimeSince1970ms = 0L;
+
             // read each line
             while (fileReader.hasNextLine()) {
                 String line = fileReader.nextLine();
@@ -67,8 +69,9 @@ public class csvUtils {
                 String name = splitLine[0];
                 String username = splitLine[2];
                 String password = splitLine[3];
+                currentTimeSince1970ms = System.currentTimeMillis();
 
-                retval.add(new AccountModel(name, username, password));
+                retval.add(new AccountModel(name, username, password, currentTimeSince1970ms));
             }
 
         } catch (IOException e) {

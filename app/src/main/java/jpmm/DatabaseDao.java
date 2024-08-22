@@ -69,6 +69,8 @@ public class DatabaseDao {
         String account;
         String username;
         String password;
+        String dateLastModified;
+
         ArrayList<AccountModel> accounts = new ArrayList<>();
         String queryString = "SELECT * FROM passwords";
 
@@ -78,11 +80,12 @@ public class DatabaseDao {
             ResultSet rs = stmt.executeQuery(queryString);
 
             while (rs.next()) {
-                account = rs.getString("Account");
-                username = rs.getString("Username");
-                password = rs.getString("Password");
+                account = rs.getString(1);
+                username = rs.getString(2);
+                password = rs.getString(3);
+                dateLastModified = rs.getString(4);
 
-                accounts.add(new AccountModel(account, username, password));
+                accounts.add(new AccountModel(account, username, password, Long.parseLong(dateLastModified)));
             }
 
         } catch (SQLException e) {
@@ -101,20 +104,23 @@ public class DatabaseDao {
         String account;
         String username;
         String password;
+        String dateLastModified;
         ArrayList<AccountModel> accounts = new ArrayList<>();
-        String param = accountParam + "%";
-        String queryString = String.format("SELECT * FROM passwords WHERE Account LIKE '%s'", param);
+        String queryString = String.format("SELECT * FROM passwords WHERE Account LIKE ?");
 
         try {
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(queryString);
+            PreparedStatement pstmt = connection.prepareStatement(queryString);
+            pstmt.setString(1, accountParam);
+
+            ResultSet rs = pstmt.executeQuery(queryString);
 
             while (rs.next()) {
-                account = rs.getString("Account");
-                username = rs.getString("Username");
-                password = rs.getString("Password");
+                account = rs.getString(1);
+                username = rs.getString(2);
+                password = rs.getString(3);
+                dateLastModified = rs.getString(4);
 
-                accounts.add(new AccountModel(account, username, password));
+                accounts.add(new AccountModel(account, username, password, Long.parseLong(dateLastModified)));
             }
 
         } catch (SQLException e) {
@@ -127,13 +133,17 @@ public class DatabaseDao {
     public void addAccount(String account, String userName, int passwordLen) {
 
         String generatedPassword = passwordUtil.generatePassword(passwordLen);
-        String queryString = "INSERT INTO passwords (account, username, password) VALUES (?, ?, ?)";
+        String queryString = "INSERT INTO passwords (account, username, password) VALUES (?, ?, ?, ?)";
 
         try {
+
+            Long currentTimeSince1970ms = System.currentTimeMillis();
+
             PreparedStatement pstmt = connection.prepareStatement(queryString);
             pstmt.setString(1, account);
             pstmt.setString(2, userName);
             pstmt.setString(3, generatedPassword);
+            pstmt.setString(4, currentTimeSince1970ms.toString());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
