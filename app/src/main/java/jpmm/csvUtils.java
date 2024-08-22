@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.HashMap;
 
 public class csvUtils {
 
@@ -26,6 +27,23 @@ public class csvUtils {
         ArrayList<AccountModel> accountsFromFile = parsePasswordCsv(passwordCsv);
 
         // TODO: add to db without dupes
+        ArrayList<AccountModel> accountsFromDatabase = Dao.getAllAccounts();
+
+    }
+
+    private static void importPasswordsToDb(DatabaseDao Dao, ArrayList<AccountModel> accountsFromDatabase,
+            ArrayList<AccountModel> accountsFromFile) {
+
+        int idx = 0;
+        HashMap<Integer, AccountModel> accountsFromDbMap = new HashMap<>();
+
+        // put accounts from db into map for quick lookup
+        for (AccountModel acc : accountsFromDatabase) {
+            accountsFromDbMap.put(idx++, acc);
+        }
+
+        // TODO: work on later
+        // need to compare times and put the most up to date accounts into the database
 
     }
 
