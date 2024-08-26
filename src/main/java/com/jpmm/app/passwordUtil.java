@@ -1,4 +1,4 @@
-package jpmm;
+package com.jpmm.app;
 
 import java.util.Random;
 

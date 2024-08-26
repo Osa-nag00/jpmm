@@ -1,4 +1,4 @@
-package jpmm;
+package com.jpmm.app;
 
 import java.sql.DriverManager;
 import java.sql.Connection;
@@ -106,13 +106,12 @@ public class DatabaseDao {
         String password;
         String dateLastModified;
         ArrayList<AccountModel> accounts = new ArrayList<>();
-        String queryString = String.format("SELECT * FROM passwords WHERE Account LIKE ?");
+        String queryString = "SELECT * FROM passwords WHERE account LIKE ?";
 
-        try {
-            PreparedStatement pstmt = connection.prepareStatement(queryString);
+        try (PreparedStatement pstmt = this.connection.prepareStatement(queryString)) {
             pstmt.setString(1, accountParam);
 
-            ResultSet rs = pstmt.executeQuery(queryString);
+            ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 account = rs.getString(1);
@@ -135,11 +134,10 @@ public class DatabaseDao {
         String generatedPassword = passwordUtil.generatePassword(passwordLen);
         String queryString = "INSERT INTO passwords (account, username, password) VALUES (?, ?, ?, ?)";
 
-        try {
+        try (PreparedStatement pstmt = connection.prepareStatement(queryString);) {
 
             Long currentTimeSince1970ms = System.currentTimeMillis();
 
-            PreparedStatement pstmt = connection.prepareStatement(queryString);
             pstmt.setString(1, account);
             pstmt.setString(2, userName);
             pstmt.setString(3, generatedPassword);
@@ -156,7 +154,7 @@ public class DatabaseDao {
         // should not be an issue since the accounts names should be unique, maybe
         // fix later
 
-        String queryString = "DELETE FROM passwords WHERE Account = ?";
+        String queryString = "DELETE FROM passwords WHERE account = ?";
         try {
             PreparedStatement pstmt = connection.prepareStatement(queryString);
             pstmt.setString(1, account);

@@ -1,4 +1,4 @@
-package jpmm;
+package com.jpmm.app;
 
 public class MyUtil {
     public static void clearConsole() {
