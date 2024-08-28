@@ -1,11 +1,7 @@
-# Ignore Idea files
-/.idea
-
 # Ignore vscode settings file
-/vscode
+.vscode/
 
-
-# Ignore Gradle build output directory
-build
+#ignore maven build folder
+target/
 
 passwords.db
