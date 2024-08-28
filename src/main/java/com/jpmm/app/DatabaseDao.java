@@ -109,7 +109,7 @@ public class DatabaseDao {
         String queryString = "SELECT * FROM passwords WHERE account LIKE ?";
 
         try (PreparedStatement pstmt = this.connection.prepareStatement(queryString)) {
-            pstmt.setString(1, accountParam);
+            pstmt.setString(1,'%' + accountParam + '%'); // % makes the ends wildcards
 
             ResultSet rs = pstmt.executeQuery();
 
@@ -132,7 +132,7 @@ public class DatabaseDao {
     public void addAccount(String account, String userName, int passwordLen) {
 
         String generatedPassword = passwordUtil.generatePassword(passwordLen);
-        String queryString = "INSERT INTO passwords (account, username, password) VALUES (?, ?, ?, ?)";
+        String queryString = "INSERT INTO passwords (account, username, password, date_last_modified) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = connection.prepareStatement(queryString);) {
 

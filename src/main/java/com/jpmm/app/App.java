@@ -41,25 +41,32 @@ public class App {
             handleCommands(userInput, Dao);
         } else {
             returnedAccounts = Dao.getLikeAccounts(userInput);
-            correctAccount = getCorrectAccount(returnedAccounts);
-            copyAccountPasswordToClipboard(correctAccount);
-            pasteHasBeenDone = true;
-            printAccount(correctAccount);
+
+            if (returnedAccounts.size() <= 0){
+                System.out.println("No accounts found!");
+            }else{
+                correctAccount = getCorrectAccount(returnedAccounts);
+                copyAccountPasswordToClipboard(correctAccount);
+                pasteHasBeenDone = true;
+                printAccount(correctAccount);
+            }
         }
 
-        // Nothing else works, just make it wait like 2 seconds before closing :(
-        try {
-            Thread.sleep(3500);
-        } catch (InterruptedException ie) {
-            Thread.currentThread().interrupt();
-        }
-
+        
         // clear the system clipboard if the password has been pasted to it
         if (pasteHasBeenDone) {
+
+            // Nothing else works, just make it wait like 2 seconds before closing :(
+            try {
+                Thread.sleep(3500);
+            } catch (InterruptedException ie) {
+                Thread.currentThread().interrupt();
+            }
+
             clearClipboard();
+            System.out.println("Password has been cleared from clipboard");
         }
 
-        System.out.println("Password has been cleared from clipboard");
 
         MyScannerWrapper.close();
         scanner.close();

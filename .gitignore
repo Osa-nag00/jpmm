@@ -4,4 +4,5 @@
 #ignore maven build folder
 target/
 
+# don't track database
 passwords.db
