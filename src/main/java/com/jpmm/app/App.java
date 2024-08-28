@@ -22,7 +22,7 @@ public class App {
         boolean pasteHasBeenDone = false;
 
         // TODO: finish implementing
-        // csvUtils.importCSV(Dao);
+        csvUtils.importCSV(Dao);
 
         // System.exit(0);
 

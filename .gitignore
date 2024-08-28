@@ -6,3 +6,5 @@ target/
 
 # don't track database
 passwords.db
+
+Microsoft Edge Passwords.csv
