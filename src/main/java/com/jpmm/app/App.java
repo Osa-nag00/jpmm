@@ -21,11 +21,6 @@ public class App {
         DatabaseDao Dao = new DatabaseDao();
         boolean pasteHasBeenDone = false;
 
-        // TODO: finish implementing
-        csvUtils.importCSV(Dao);
-
-        // System.exit(0);
-
         System.out.println("Enter the Name of The Account Or Enter A Command: ");
 
         if (scanner.hasNextLine()) {
@@ -42,9 +37,9 @@ public class App {
         } else {
             returnedAccounts = Dao.getLikeAccounts(userInput);
 
-            if (returnedAccounts.size() <= 0){
+            if (returnedAccounts.size() <= 0) {
                 System.out.println("No accounts found!");
-            }else{
+            } else {
                 correctAccount = getCorrectAccount(returnedAccounts);
                 copyAccountPasswordToClipboard(correctAccount);
                 pasteHasBeenDone = true;
@@ -52,7 +47,6 @@ public class App {
             }
         }
 
-        
         // clear the system clipboard if the password has been pasted to it
         if (pasteHasBeenDone) {
 
@@ -66,7 +60,6 @@ public class App {
             clearClipboard();
             System.out.println("Password has been cleared from clipboard");
         }
-
 
         MyScannerWrapper.close();
         scanner.close();
@@ -165,9 +158,6 @@ public class App {
                 break;
             case "D":
                 deleteAccount();
-            case "X":
-                csvUtils.exportCSV(Dao);
-                break;
             case "I":
                 csvUtils.importCSV(Dao);
             default:
