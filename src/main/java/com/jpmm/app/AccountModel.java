@@ -5,6 +5,7 @@ public class AccountModel {
     /**
      * Model to represent Account from database
      */
+    private int id;
     private String Account;
     private String Username;
     private String Password;
@@ -15,18 +16,24 @@ public class AccountModel {
     private Long DateLastModified;
 
     AccountModel() {
+        this.id = -1;
         this.Account = "";
         this.Username = "";
         this.Password = "";
         this.DateLastModified = 0L;
     }
 
-    AccountModel(String Account, String Username, String Password, Long DateLastModified) {
+    AccountModel(int id, String Account, String Username, String Password, Long DateLastModified) {
+        this.id = id;
         this.Account = Account;
         this.Username = Username;
         this.Password = Password;
         this.DateLastModified = DateLastModified;
 
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getAccount() {

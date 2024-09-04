@@ -66,6 +66,7 @@ public class DatabaseDao {
 
     public ArrayList<AccountModel> getAllAccounts() {
 
+        int id;
         String account;
         String username;
         String password;
@@ -80,12 +81,14 @@ public class DatabaseDao {
             ResultSet rs = stmt.executeQuery(queryString);
 
             while (rs.next()) {
+
+                id = rs.getInt("id");
                 account = rs.getString(1);
                 username = rs.getString(2);
                 password = rs.getString(3);
                 dateLastModified = rs.getString(4);
 
-                accounts.add(new AccountModel(account, username, password, Long.parseLong(dateLastModified)));
+                accounts.add(new AccountModel(id, account, username, password, Long.parseLong(dateLastModified)));
             }
 
         } catch (SQLException e) {
@@ -101,6 +104,7 @@ public class DatabaseDao {
      */
     public ArrayList<AccountModel> getLikeAccounts(String accountParam) {
 
+        int id;
         String account;
         String username;
         String password;
@@ -109,17 +113,18 @@ public class DatabaseDao {
         String queryString = "SELECT * FROM passwords WHERE account LIKE ?";
 
         try (PreparedStatement pstmt = this.connection.prepareStatement(queryString)) {
-            pstmt.setString(1,'%' + accountParam + '%'); // % makes the ends wildcards
+            pstmt.setString(1, '%' + accountParam + '%'); // % makes the ends wildcards
 
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
+                id = rs.getInt("id");
                 account = rs.getString(1);
                 username = rs.getString(2);
                 password = rs.getString(3);
                 dateLastModified = rs.getString(4);
 
-                accounts.add(new AccountModel(account, username, password, Long.parseLong(dateLastModified)));
+                accounts.add(new AccountModel(id, account, username, password, Long.parseLong(dateLastModified)));
             }
 
         } catch (SQLException e) {
@@ -127,6 +132,24 @@ public class DatabaseDao {
         }
 
         return accounts;
+    }
+
+    public void addAccount(String account, String userName, String password) {
+
+        String queryString = "INSERT INTO passwords (account, username, password, date_last_modified) VALUES (?, ?, ?, ?)";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(queryString);) {
+
+            Long currentTimeSince1970ms = System.currentTimeMillis();
+
+            pstmt.setString(1, account);
+            pstmt.setString(2, userName);
+            pstmt.setString(3, password);
+            pstmt.setString(4, currentTimeSince1970ms.toString());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void addAccount(String account, String userName, int passwordLen) {
@@ -150,7 +173,7 @@ public class DatabaseDao {
 
     public void deleteAccount(String account) {
 
-        // TODO: this will delete all instances of "account"
+        // TODO: this will delete all instances of "account" (09/03/24) -> ???
         // should not be an issue since the accounts names should be unique, maybe
         // fix later
 
@@ -162,6 +185,26 @@ public class DatabaseDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void updateAccount(AccountModel newAccount, int idToUpdate) {
+
+        String queryString = "UPDATE passwords SET Password = ?, "
+                + "date_last_modified = ?"
+                + "WHERE id = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(queryString);) {
+
+            Long currentTimeSince1970ms = System.currentTimeMillis();
+
+            pstmt.setString(1, newAccount.getPassword());
+            pstmt.setString(2, currentTimeSince1970ms.toString());
+            pstmt.setInt(3, idToUpdate);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
