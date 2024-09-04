@@ -104,7 +104,8 @@ public class App {
         String output;
 
         for (int i = 0; i < size; i++) {
-            output = String.format("%d: %s", i + 1, accounts.get(i).getAccount());
+            output = String.format("%d: %s (%s)", i + 1, accounts.get(i).getAccount(),
+                    accounts.get(i).getUsername());
             System.out.println(output);
         }
 

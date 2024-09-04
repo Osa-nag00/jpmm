@@ -19,6 +19,12 @@ public class csvUtils {
         importPasswordsToDb(Dao, accountsFromDatabase, accountsFromFile);
     }
 
+    // TODO: slight issue (work on this at some point, for now both accounts are in)
+    /**
+     * for accounts like {"google", "google.com"} don't update properly because of
+     * the slight difference in names
+     */
+
     private static void importPasswordsToDb(DatabaseDao Dao, ArrayList<AccountModel> accountsFromDatabase,
             ArrayList<AccountModel> accountsFromFile) {
 
