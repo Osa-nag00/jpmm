@@ -8,42 +8,55 @@ import java.util.HashMap;
 
 public class csvUtils {
 
-    // TODO: might not actually use this
-    public static void exportCSV(DatabaseDao Dao) {
-        ArrayList<AccountModel> accounts = Dao.getAllAccounts();
-
-        for (AccountModel account : accounts) {
-            System.out.println(account);
-        }
-    }
-
     public static void importCSV(DatabaseDao Dao) {
 
         File passwordCsv = findPasswordCsv();
 
-        // TODO: read in all the the accounts from the csv
-        // TODO: get rid of all the url and notes col
-        // TODO: parse into list of accounts
         ArrayList<AccountModel> accountsFromFile = parsePasswordCsv(passwordCsv);
 
-        // TODO: add to db without dupes
         ArrayList<AccountModel> accountsFromDatabase = Dao.getAllAccounts();
 
+        importPasswordsToDb(Dao, accountsFromDatabase, accountsFromFile);
     }
 
     private static void importPasswordsToDb(DatabaseDao Dao, ArrayList<AccountModel> accountsFromDatabase,
             ArrayList<AccountModel> accountsFromFile) {
 
-        int idx = 0;
         HashMap<Integer, AccountModel> accountsFromDbMap = new HashMap<>();
+        HashMap<String, Integer> accountNamesFromDbMap = new HashMap<>();
+
+        /**
+         * QUICK NOTE: normalize both account names to lowercase to make sure match
+         * is solely on the spelling
+         */
 
         // put accounts from db into map for quick lookup
         for (AccountModel acc : accountsFromDatabase) {
-            accountsFromDbMap.put(idx++, acc);
+            // this stores names to search if there are dupes
+            accountNamesFromDbMap.put(acc.getAccount().toLowerCase(), acc.getId());
+            // this stores the actual accounts to receive later if a dupe is found
+            accountsFromDbMap.put(acc.getId(), acc);
         }
 
-        // TODO: work on later
-        // need to compare times and put the most up to date accounts into the database
+        // loop through all password from csv
+        for (AccountModel acc : accountsFromFile) {
+
+            String tempAccountFromFileName = acc.getAccount().toLowerCase();
+
+            // if there is a duplicate account name
+            if (accountNamesFromDbMap.containsKey(tempAccountFromFileName)) {
+                int id = accountNamesFromDbMap.get(tempAccountFromFileName);
+                // if account from the import is newer than the on stored in the database,
+                // replace in the database
+                if (accountsFromDbMap.get(id).getDateLastModified() <= acc.getDateLastModified()) {
+                    Dao.updateAccount(acc, id);
+                }
+            } else {
+                // if not already in the the db just add it without needing to update the
+                // password
+                Dao.addAccount(acc.getAccount(), acc.getUsername(), acc.getPassword());
+            }
+        }
 
     }
 
@@ -89,7 +102,9 @@ public class csvUtils {
                 String password = splitLine[3];
                 currentTimeSince1970ms = System.currentTimeMillis();
 
-                retval.add(new AccountModel(name, username, password, currentTimeSince1970ms));
+                // the accounts from the excel sheet won't have proper ids yet
+                // just set it to -1 for now
+                retval.add(new AccountModel(-1, name, username, password, currentTimeSince1970ms));
             }
 
         } catch (IOException e) {
