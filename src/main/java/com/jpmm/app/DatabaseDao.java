@@ -43,9 +43,9 @@ public class DatabaseDao {
         try {
             connection = DriverManager.getConnection(sqlLiteDatabasePath.toString());
         } catch (SQLException e) {
-
             System.err.println("COULD NOT MAKE CONNECTION TO SQLITE DATABASE");
             e.printStackTrace();
+            System.exit(-1); // exit could not connect to db
         }
 
         // MyUtil.clearConsole();
