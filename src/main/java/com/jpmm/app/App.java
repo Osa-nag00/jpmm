@@ -5,6 +5,10 @@ package com.jpmm.app;
 
 import java.util.Scanner;
 
+import com.jpmm.app.utils.MyScannerWrapperUtil;
+import com.jpmm.app.utils.MyUtil;
+import com.jpmm.app.utils.csvUtils;
+
 import java.util.ArrayList;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -61,7 +65,7 @@ public class App {
             System.out.println("Password has been cleared from clipboard");
         }
 
-        MyScannerWrapper.close();
+        MyScannerWrapperUtil.close();
         scanner.close();
     }
 
@@ -174,13 +178,13 @@ public class App {
         int passLen = -1;
 
         System.out.println("Enter The Name of The Account You Want To Add: ");
-        accountName = MyScannerWrapper.getStringInput();
+        accountName = MyScannerWrapperUtil.getStringInput();
 
         System.out.println("Enter The Username/Email For The Account: ");
-        userName = MyScannerWrapper.getStringInput();
+        userName = MyScannerWrapperUtil.getStringInput();
 
         System.out.println("Enter The Length Of Password To Be Generated: ");
-        passLen = MyScannerWrapper.getPositiveIntInput();
+        passLen = MyScannerWrapperUtil.getPositiveIntInput();
 
         Dao.addAccount(accountName, userName, passLen);
     }
@@ -192,7 +196,7 @@ public class App {
         String accountName = "";
         String correctAccountNameToRemove = "";
         System.out.println("Enter The Name of The Account You Want To Delete: ");
-        accountName = MyScannerWrapper.getStringInput();
+        accountName = MyScannerWrapperUtil.getStringInput();
 
         returnedAccounts = Dao.getLikeAccounts(accountName);
 

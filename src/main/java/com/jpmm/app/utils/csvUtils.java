@@ -1,9 +1,13 @@
-package com.jpmm.app;
+package com.jpmm.app.utils;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import com.jpmm.app.AccountModel;
+import com.jpmm.app.DatabaseDao;
+
 import java.util.HashMap;
 
 public class csvUtils {

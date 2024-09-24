@@ -1,8 +1,8 @@
-package com.jpmm.app;
+package com.jpmm.app.utils;
 
 import java.util.Scanner;
 
-public class MyScannerWrapper {
+public class MyScannerWrapperUtil {
 
     private static Scanner scanner = new Scanner(System.in);
     private static String userInputString = "";

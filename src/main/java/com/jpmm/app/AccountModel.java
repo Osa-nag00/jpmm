@@ -15,7 +15,7 @@ public class AccountModel {
      */
     private Long DateLastModified;
 
-    AccountModel() {
+    public AccountModel() {
         this.id = -1;
         this.Account = "";
         this.Username = "";
@@ -23,7 +23,7 @@ public class AccountModel {
         this.DateLastModified = 0L;
     }
 
-    AccountModel(int id, String Account, String Username, String Password, Long DateLastModified) {
+    public AccountModel(int id, String Account, String Username, String Password, Long DateLastModified) {
         this.id = id;
         this.Account = Account;
         this.Username = Username;
