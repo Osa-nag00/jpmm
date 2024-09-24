@@ -22,6 +22,8 @@ public class DatabaseDao {
 
     DatabaseDao() {
 
+        // TODO: change this so we connect straight to the db in the resource file!!!
+
         connection = null;
         File tempDbFile = null;
         // Copy the database file to a temporary location
