@@ -14,6 +14,8 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 
+// TODO: generate new batch file when version updates
+
 public class App {
 
     public static void main(String[] args) {
