@@ -8,6 +8,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class DatabaseDao {
 
@@ -17,38 +20,51 @@ public class DatabaseDao {
     DatabaseDao() {
 
         connection = null;
+        File tempDbFile = null;
+        // Copy the database file to a temporary location
+        try {
+            tempDbFile = File.createTempFile("passwords", ".db");
+            tempDbFile.deleteOnExit(); // Ensure it's deleted when the program exits
 
-        // gets the absolute path of the sqlite *.db file
-        // sqlLiteDatabasePath =
-        // sqlLiteDatabasePath =
-        // App.class.getClassLoader().getResource("db/passwords.db").toString();
+        } catch (IOException e) {
+            System.err.println("Could not create temp sqlite database");
+        }
 
-        // This makes it so the db folder needs to be at the root of the dir
-        // the context of this is within the /app dir
-        // sqlLiteDatabasePath = "src/main/java/jpmm/passwords.db";
-        sqlLiteDatabasePath = System.getProperty("user.dir") + File.separator + "passwords.db";
+        // load in database from resource folder
+        try (InputStream dbStream = getClass().getClassLoader().getResourceAsStream("db/passwords.db")) {
+            FileOutputStream outputStream = new FileOutputStream(tempDbFile);
 
-        // Use this to double check and make sure the file exist
-        File tempFileObject = new File(sqlLiteDatabasePath);
+            // if not found
+            if (dbStream == null) {
+                outputStream.close();
+                throw new IOException("Database file not found");
+            }
 
-        if (!tempFileObject.exists()) {
-            System.err.println("COULD NOT FIND DATABASE FILE");
-            // TODO: create new database here??
+            // Copy the InputStream to the temporary file
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = dbStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
+            outputStream.close();
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+            System.exit(-1);
         }
 
         // Need to add this prefix for the connection to occur
         // when dealing with sqlite database
-        sqlLiteDatabasePath = "jdbc:sqlite:" + sqlLiteDatabasePath;
+        sqlLiteDatabasePath = "jdbc:sqlite:" + tempDbFile.getAbsolutePath();
 
         try {
-            connection = DriverManager.getConnection(sqlLiteDatabasePath.toString());
+            connection = DriverManager.getConnection(sqlLiteDatabasePath);
         } catch (SQLException e) {
             System.err.println("COULD NOT MAKE CONNECTION TO SQLITE DATABASE");
             e.printStackTrace();
             System.exit(-1); // exit could not connect to db
         }
 
-        // MyUtil.clearConsole();
     }
 
     /*
