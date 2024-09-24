@@ -4,7 +4,7 @@
   <groupId>com.jpmm.app</groupId>
   <artifactId>jpmm</artifactId>
   <name>Java Password Manager</name>
-  <version>0.6</version>
+  <version>0.6.1</version>
   <description>Personal Password Manager</description>
   <build>
     <plugins>
@@ -45,6 +45,18 @@
         <exclusion>
           <artifactId>hamcrest-core</artifactId>
           <groupId>org.hamcrest</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-reload4j</artifactId>
+      <version>2.0.16</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>reload4j</artifactId>
+          <groupId>ch.qos.reload4j</groupId>
         </exclusion>
       </exclusions>
     </dependency>
