@@ -19,7 +19,6 @@
               <mainClass>com.jpmm.app.App</mainClass>
             </manifest>
           </archive>
-          <outputDirectory>${project.basedir}/dist</outputDirectory>
         </configuration>
       </plugin>
       <plugin>
