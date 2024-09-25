@@ -72,6 +72,7 @@
               <mainClass>com.jpmm.app.App</mainClass>
             </manifest>
           </archive>
+          <outputDirectory>${project.basedir}/dist</outputDirectory>
         </configuration>
       </plugin>
 
@@ -88,6 +89,26 @@
           </execution>
         </executions>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>3.1.0</version>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>${project.basedir}/dist</directory>
+              <includes>
+                <include>**/*</include>
+              </includes>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
+
+
     </plugins>
+
+
   </build>
 </project>
