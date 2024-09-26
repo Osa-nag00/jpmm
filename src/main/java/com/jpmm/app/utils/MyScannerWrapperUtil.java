@@ -2,6 +2,10 @@ package com.jpmm.app.utils;
 
 import java.util.Scanner;
 
+/**
+ * Pretty sure I made this class because gradle was giving me issues
+ * May not need this anymore but don't feel like refactoring (09/26/24)
+ */
 public class MyScannerWrapperUtil {
 
     private static Scanner scanner = new Scanner(System.in);

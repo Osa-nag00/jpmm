@@ -18,16 +18,18 @@ import java.awt.datatransfer.StringSelection;
 
 public class App {
 
+    static DatabaseDao Dao;
+
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
         ArrayList<AccountModel> returnedAccounts;
         AccountModel correctAccount;
         String userInput = "";
-        DatabaseDao Dao = new DatabaseDao();
+        Dao = new DatabaseDao();
         boolean pasteHasBeenDone = false;
 
-        System.out.println("Enter the Name of The Account Or Enter A Command: ");
+        System.out.println("Enter the name of The account Or enter a command: ");
 
         if (scanner.hasNextLine()) {
             userInput = scanner.nextLine();
@@ -69,6 +71,7 @@ public class App {
 
         MyScannerWrapperUtil.close();
         scanner.close();
+        Dao.closeConnection();
     }
 
     /**
@@ -122,7 +125,7 @@ public class App {
         }
 
         while (userInput < 0 || userInput > (size - 1)) {
-            System.out.println("INVALID INPUT, TRY OPTION");
+            System.out.println("Invalid input, try again");
             if (scanner.hasNextInt()) {
                 userInput = scanner.nextInt();
                 userInput--;
@@ -167,8 +170,10 @@ public class App {
                 deleteAccount();
             case "I":
                 csvUtils.importCSV(Dao);
+                break;
             case "E":
                 csvUtils.exportCSV(Dao);
+                break;
             default:
                 break;
         }
@@ -176,37 +181,35 @@ public class App {
 
     public static void addAccount() {
 
-        DatabaseDao Dao = new DatabaseDao();
         String accountName = "";
         String userName = "";
         int passLen = -1;
 
-        System.out.println("Enter The Name of The Account You Want To Add: ");
+        System.out.println("Enter the name of the account you want to add: ");
         accountName = MyScannerWrapperUtil.getStringInput();
 
-        System.out.println("Enter The Username/Email For The Account: ");
+        System.out.println("Enter the username/email for the account: ");
         userName = MyScannerWrapperUtil.getStringInput();
 
-        System.out.println("Enter The Length Of Password To Be Generated: ");
+        System.out.println("Enter the length of password to be generated: ");
         passLen = MyScannerWrapperUtil.getPositiveIntInput();
 
         Dao.addAccount(accountName, userName, passLen);
     }
 
     public static void deleteAccount() {
-        DatabaseDao Dao = new DatabaseDao();
         ArrayList<AccountModel> returnedAccounts;
         AccountModel correctAccount;
         String accountName = "";
         String correctAccountNameToRemove = "";
-        System.out.println("Enter The Name of The Account You Want To Delete: ");
+        System.out.println("Enter the name of the account you want to delete: ");
         accountName = MyScannerWrapperUtil.getStringInput();
 
         returnedAccounts = Dao.getLikeAccounts(accountName);
 
         if (returnedAccounts.size() < 0) {
-            // TODO: handle better than this
-            System.err.println("CAN NOT FIND ACCOUNT IN DATABASE");
+
+            System.err.println("Can not find account in database");
             System.exit(-1);
         }
 
