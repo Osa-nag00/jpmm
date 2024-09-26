@@ -53,7 +53,7 @@ The JAR Password Manager is a simple command-line application designed to secure
 
 #### Example
 
-```less
+```text
 Enter the Name of the account or enter a Command:
 os
 Which Accounts:
