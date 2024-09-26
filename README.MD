@@ -11,7 +11,7 @@ The JAR Password Manager is a simple command-line application designed to secure
 - **Store Passwords**: Save account credentials securely in a database.
 - **Retrieve Passwords**: Easily fetch passwords and copy them to your clipboard.
 - **Manage Accounts**: Add or delete accounts as needed.
-- **Import/Export**: Import accounts from a CSV file or export them to one.
+- **Import/Export**: Import accounts from a Microsoft Passwords CSV file or export them to one.
 
 ## Getting Started
 
