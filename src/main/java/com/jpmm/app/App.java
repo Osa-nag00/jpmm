@@ -14,7 +14,7 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 
-// TODO: generate new batch file when version updates
+// TODO: work out the oddities when it comes to importing and exporting data from the database
 
 public class App {
 
@@ -167,6 +167,8 @@ public class App {
                 deleteAccount();
             case "I":
                 csvUtils.importCSV(Dao);
+            case "E":
+                csvUtils.exportCSV(Dao);
             default:
                 break;
         }
